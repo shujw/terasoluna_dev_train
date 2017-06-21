@@ -1,0 +1,36 @@
+<included>
+  
+  <!--
+     - EVENT_LOG
+    -->
+  <appender name="EVENT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${im.log}/platform/report/event.log</file>
+    <append>true</append>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>${im.log}/platform/report/event%i.log</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>5</maxIndex>
+    </rollingPolicy>
+
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>10MB</maxFileSize>
+    </triggeringPolicy>
+
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="jp.co.intra_mart.common.platform.log.layout.OutputStackTracePatternLayout">
+        <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %logger{255} - %msg%n</pattern>
+        <enableOutputStackTrace>true</enableOutputStackTrace>
+        <stackTraceDir>${im.log}/platform/exception/</stackTraceDir>
+        <stackTraceFilename>'exception_'yyyy-MM-dd_HH-mm-ss'_%logId.log'</stackTraceFilename>
+      </layout>
+      <immediateFlush>true</immediateFlush>
+    </encoder>
+  </appender>
+
+  <logger name="EVENT_LOG" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="EVENT_FILE" />
+  </logger>
+
+</included>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- See http://mybatis.github.io/mybatis-3/configuration.html#settings -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <setting name="lazyLoadingEnabled" value="true" />
+        <setting name="aggressiveLazyLoading" value="false" />
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+
+    <typeAliases>
+
+        <!-- 顧客マスタメンテナンス -->
+        <package name="jp.co.tutorial.domain.customer.model" />
+
+        <!-- イベントマスタメンテナンス -->
+        <package name="jp.co.tutorial.domain.event.model" />
+
+    </typeAliases>
+
+    <typeHandlers>
+
+    </typeHandlers>
+
+</configuration>

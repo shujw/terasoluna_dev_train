@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.tutorial.domain.event.repository.MSampleEventRepository">
+
+    <resultMap id="eventResultMap" type="MSampleEvent">
+        <id property="eventId" column="event_id" />
+        <result property="eventName" column="event_name" />
+        <result property="eventDetail" column="event_detail" />
+        <result property="eventDate" column="event_date" />
+        <result property="entryUser" column="entry_user" />
+    </resultMap>
+
+    <!-- 登録件数を取得 -->
+    <select id="getCount" resultType="long">
+        SELECT COUNT(*) FROM m_sample_event
+    </select>
+
+    <!-- イベント一覧を取得 -->
+    <!-- 「3 一覧画面」を実装しましょう -->
+    <select id="getEventData" resultMap="eventResultMap">
+        SELECT * FROM m_sample_event ORDER BY ${sortStr}
+    </select>
+
+    <!-- イベントIDを条件にイベント情報を検索 -->
+    <select id="findByEventId" parameterType="String" resultMap="eventResultMap">
+        SELECT
+            event_id,
+            event_name,
+            event_detail,
+            event_date,
+            entry_user
+        FROM
+            m_sample_event
+        WHERE
+            event_id = #{eventId}
+    </select>
+
+    <!-- イベント情報を登録 -->
+    <!-- 「4.1 登録画面」を実装しましょう -->
+    <insert id="insert" parameterType="MSampleEvent">
+        INSERT INTO m_sample_event
+        (
+            event_id,
+            event_name,
+            event_detail,
+            event_date,
+            entry_user
+        )
+        VALUES
+        (
+            #{eventId},
+            #{eventName},
+            #{eventDetail},
+            #{eventDate},
+            #{entryUser}
+        )
+    </insert>
+
+    <!-- イベント情報を更新 -->
+    <update id="update" parameterType="MSampleEvent">
+        UPDATE m_sample_event
+        SET
+            event_name = #{eventName},
+            event_detail = #{eventDetail},
+            event_date = #{eventDate},
+            entry_user = #{entryUser}
+        WHERE
+            event_id = #{eventId}
+    </update>
+
+    <!-- イベント情報を削除 -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM
+            m_sample_event
+        WHERE
+            event_id = #{eventId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.tutorial.domain.customer.repository.MSampleCustomerRepository">
+
+    <resultMap id="customerResultMap" type="MSampleCustomer">
+        <id property="customerCd" column="customer_cd" />
+        <result property="customerName" column="customer_name" />
+        <result property="customerTelno" column="customer_telno" />
+        <result property="customerAddress" column="customer_address" />
+        <result property="customerSex" column="customer_sex" />
+        <result property="customerBirthday" column="customer_birthday" />
+        <result property="attachmentFile" column="attachment_file" />
+        <result property="chargeStfCd" column="charge_stf_cd" />
+        <result property="updateDate" column="update_date" />
+    </resultMap>
+
+    <!-- 登録件数を取得 -->
+    <select id="getCount" resultType="long">
+    SELECT COUNT(*) FROM m_sample_customer
+    </select>
+
+    <!-- 顧客一覧を取得 -->
+    <select id="getCustomerData" resultMap="customerResultMap">
+        SELECT * FROM m_sample_customer ORDER BY ${sortStr}
+    </select>
+
+    <!-- 顧客CDを条件に顧客情報を検索 -->
+    <select id="findByCustomerCd" parameterType="String" resultMap="customerResultMap">
+        SELECT
+            customer_cd,
+            customer_name,
+            customer_telno,
+            customer_address,
+            customer_sex,
+            customer_birthday,
+            attachment_file,
+            charge_stf_cd,
+            update_date
+        FROM
+            m_sample_customer
+        WHERE
+            customer_cd = #{customerCd}
+    </select>
+
+    <!-- 顧客情報を登録 -->
+    <insert id="insert" parameterType="MSampleCustomer">
+        INSERT INTO m_sample_customer
+        (
+            customer_cd,
+            customer_name,
+            customer_telno,
+            customer_address,
+            customer_sex,
+            customer_birthday,
+            attachment_file,
+            charge_stf_cd,
+            update_date
+        )
+        VALUES
+        (
+            #{customerCd},
+            #{customerName},
+            #{customerTelno},
+            #{customerAddress},
+            #{customerSex},
+            #{customerBirthday},
+            #{attachmentFile},
+            #{chargeStfCd},
+            #{updateDate}
+        )
+    </insert>
+
+    <!-- 顧客情報を更新 -->
+    <update id="update" parameterType="MSampleCustomer">
+        UPDATE m_sample_customer
+        SET
+            customer_name = #{customerName},
+            customer_telno = #{customerTelno},
+            customer_address = #{customerAddress},
+            customer_sex = #{customerSex},
+            customer_birthday = #{customerBirthday},
+            attachment_file = #{attachmentFile},
+            charge_stf_cd = #{chargeStfCd},
+            update_date = #{updateDate}
+        WHERE
+            customer_cd = #{customerCd}
+    </update>
+
+    <!-- 顧客情報を削除 -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM m_sample_customer
+        WHERE
+            customer_cd = #{customerCd}
+    </delete>
+
+</mapper>
